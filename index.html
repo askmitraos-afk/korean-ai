@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KOREAN AI - Autonomous Core</title>
+<style>
+  body { background: #0b0f19; color: #f8fafc; font-family: system-ui, sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; }
+  header { background: #111827; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; }
+  header h1 { margin: 0; font-size: 18px; color: #38bdf8; letter-spacing: 0.5px; }
+  #keyBtn { background: #1e293b; color: #cbd5e1; border: 1px solid #334155; padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; }
+  #chat { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .msg { max-width: 85%; padding: 12px 15px; border-radius: 14px; font-size: 15px; line-height: 1.5; white-space: pre-wrap; }
+  .user { background: #2563eb; color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
+  .ai { background: #1e293b; color: #e2e8f0; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #334155; }
+  .status { font-size: 12px; color: #38bdf8; font-style: italic; }
+  footer { background: #111827; padding: 10px; display: flex; gap: 8px; border-top: 1px solid #1e293b; }
+  input { flex: 1; background: #1e293b; border: 1px solid #334155; color: #fff; padding: 12px; border-radius: 10px; font-size: 15px; outline: none; }
+  button.send { background: #38bdf8; color: #0f172a; border: none; padding: 0 18px; border-radius: 10px; font-weight: bold; font-size: 15px; cursor: pointer; }
+</style>
+</head>
+<body>
+<header>
+  <h1>⚡ KOREAN AI Core</h1>
+  <button id="keyBtn" onclick="setKey()">🔑 API Key</button>
+</header>
+<div id="chat">
+  <div class="msg ai">नमस्ते बॉस! आपका 100% स्वतंत्र 3-दिमाग वाला सिस्टम तैयार है। शुरू करने के लिए ऊपर '🔑 API Key' दबाकर अपनी Google AI Studio चाबी डालें।</div>
+</div>
+<footer>
+  <input id="prompt" type="text" placeholder="अपना हुक्म या सवाल लिखें..." />
+  <button class="send" onclick="runSystem()">भेजें</button>
+</footer>
+<script>
+  let apiKey = localStorage.getItem('gemini_key') || '';
+  function setKey() {
+    let k = prompt('अपनी Google AI Studio API Key यहाँ पेस्ट करें:', apiKey);
+    if (k) { apiKey = k.trim(); localStorage.setItem('gemini_key', apiKey); alert('चाबी सुरक्षित सेव हो गई!'); }
+  }
+  function addMsg(text, cls) {
+    let d = document.createElement('div'); d.className = 'msg ' + cls; d.textContent = text;
+    let c = document.getElementById('chat'); c.appendChild(d); c.scrollTop = c.scrollHeight; return d;
+  }
+  async function callGemini(sys, text) {
+    let url = 'https://googleapis.com' + apiKey;
+    let res = await fetch(url, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ systemInstruction: { parts: [{ text: sys }] }, contents: [{ parts: [{ text }] }] })
+    });
+    let data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    return data.candidates.content.parts.text;
+  }
+  async function runSystem() {
+    let inp = document.getElementById('prompt'); let q = inp.value.trim();
+    if (!q) return;
+    if (!apiKey) { alert('पहले ऊपर 🔑 API Key दबाकर अपनी चाबी डालें!'); return; }
+    addMsg(q, 'user'); inp.value = '';
+    let st = addMsg('🧠 दिमाग 1: गहरा विश्लेषण और प्लानिंग हो रही है...', 'ai status');
+    try {
+      let plan = await callGemini('You are Planner Brain. Analyze the user goal deeply and create a smart, practical strategy or working code.', q);
+      st.textContent = '🔍 दिमाग 2: कमियाँ और कानूनी पहलू जांचे जा रहे हैं...';
+      let critique = await callGemini('You are Critic Brain. Find any flaws, risks, or missing details in this draft and improve it sharply.', `User Query: ${q}\nDraft: ${plan}`);
+      st.textContent = '⚡ दिमाग 3: फाइनल सुपर-स्मार्ट जवाब तैयार हो रहा है...';
+      let finalAns = await callGemini('You are Master Executor & Trusted Advisor. Combine the plan and critique into the sharpest, friendliest, action-ready final answer in Hindi/Hinglish.', `Query: ${q}\nPlan: ${plan}\nImproved Critique: ${critique}`);
+      st.remove(); addMsg(finalAns, 'ai');
+    } catch (e) { st.textContent = '❌ त्रुटि: ' + e.message; }
+  }
+</script>
+</body>
+</html>

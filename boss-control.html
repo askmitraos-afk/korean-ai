@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>KOREAN // BOSS REMOTE</title>
+<style>
+  * { box-sizing: border-box; font-family: system-ui, sans-serif; }
+  body { margin: 0; background: #030712; color: #f8fafc; padding: 14px; }
+  .panel { max-width: 460px; margin: auto; background: linear-gradient(180deg, #0f172a, #070d19); border: 1px solid #38bdf8; border-radius: 18px; padding: 18px; box-shadow: 0 0 30px rgba(56,189,248,0.2); }
+  .top { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 12px; margin-bottom: 14px; }
+  h1 { margin: 0; font-size: 18px; font-weight: 900; color: #38bdf8; letter-spacing: 1px; }
+  .badge { background: rgba(16,185,129,0.2); color: #34d399; border: 1px solid #10b981; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; }
+  .t-btn { width: 100%; background: rgba(245,158,11,0.15); border: 1px solid #f59e0b; color: #fbbf24; padding: 11px; border-radius: 12px; font-size: 13px; font-weight: 800; margin-bottom: 14px; cursor: pointer; }
+  label { display: block; font-size: 12px; font-weight: 700; color: #94a3b8; margin: 12px 0 6px; text-transform: uppercase; }
+  input, select { width: 100%; background: #1e293b; border: 1px solid #334155; color: #fff; padding: 12px; border-radius: 12px; font-size: 15px; outline: none; }
+  .card { display: flex; justify-content: space-between; align-items: center; background: #111827; border: 1px solid #1e293b; padding: 13px; border-radius: 12px; margin-top: 10px; font-size: 14px; font-weight: 600; }
+  input[type="checkbox"] { width: 22px; height: 22px; accent-color: #38bdf8; }
+  .pub-btn { width: 100%; margin-top: 18px; background: linear-gradient(90deg, #0284c7, #4f46e5); color: #fff; border: none; padding: 15px; border-radius: 14px; font-size: 16px; font-weight: 900; letter-spacing: 0.5px; box-shadow: 0 4px 20px rgba(2,132,199,0.4); cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="panel">
+  <div class="top"><h1>🎛️ KOREAN BOSS OS</h1><span class="badge">● MASTER</span></div>
+  <button class="t-btn" onclick="setToken()">🔐 GitHub मास्टर चाबी (Token) लॉक करें</button>
+  <label>सिस्टम का नाम (Brand Name)</label>
+  <input id="sysName" type="text" value="KOREAN" />
+  <label>सिस्टम पावर कंट्रोल</label>
+  <select id="sysStatus">
+    <option value="ONLINE">🟢 ONLINE (सबके लिए लाइव)</option>
+    <option value="MAINTENANCE">🟡 MAINTENANCE (अपडेट मोड)</option>
+  </select>
+  <div class="card"><span>🎙️ लाइव वॉइस (Mic) शक्ति</span><input id="voiceSw" type="checkbox" checked /></div>
+  <div class="card"><span>🚀 1-सेकंड ऐप बिल्डर शक्ति</span><input id="appSw" type="checkbox" checked /></div>
+  <label>🚨 इमरजेंसी चेतावनी / अलर्ट (सबकी स्क्रीन पर दिखेगा)</label>
+  <input id="warnMsg" type="text" placeholder="खाली छोड़ें या कोई चेतावनी लिखें..." />
+  <button class="pub-btn" onclick="pushLive()">⚡ अभी लाइव अपडेट करें (PUBLISH)</button>
+</div>
+<script>
+  let tk = localStorage.getItem('gh_token') || '';
+  function setToken() {
+    let t = prompt('अपना GitHub Personal Access Token यहाँ पेस्ट करें:', tk);
+    if (t) { tk = t.trim(); localStorage.setItem('gh_token', tk); alert('मास्टर चाबी सुरक्षित लॉक हो गई!'); }
+  }
+  async function pushLive() {
+    if (!tk) { alert('पहले ऊपर 🔐 GitHub मास्टर चाबी लॉक करें!'); return; }
+    const cfg = {
+      system_name: document.getElementById('sysName').value.trim() || 'KOREAN',
+      status: document.getElementById('sysStatus').value,
+      voice_feature: document.getElementById('voiceSw').checked,
+      app_builder_feature: document.getElementById('appSw').checked,
+      guard_warning: document.getElementById('warnMsg').value.trim()
+    };
+    try {
+      const host = ["api", "github", "com"].join(".");
+      const url = "https://" + host + "/repos/askmitraos-afk/korean-ai/contents/config.json";
+      const r1 = await fetch(url, { headers: { Authorization: "token " + tk } });
+      const d1 = await r1.json();
+      if (!d1.sha) throw new Error("सही GitHub Token डालें");
+      const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(cfg, null, 2))));
+      const r2 = await fetch(url, {
+        method: "PUT",
+        headers: { Authorization: "token " + tk, "Content-Type": "application/json" },
+        body: JSON.stringify({ message: "Boss Remote Update", content: b64, sha: d1.sha })
+      });
+      if (!r2.ok) throw new Error("अपडेट फेल हुआ");
+      alert("✅ बॉस! आपका बदलाव 30 सेकंड में पूरी दुनिया के ऐप पर लाइव हो जाएगा!");
+    } catch (e) { alert("❌ त्रुटि: " + e.message); }
+  }
+</script>
+</body>
+</html>

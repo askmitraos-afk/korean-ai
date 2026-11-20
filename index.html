@@ -3,134 +3,107 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>MITRA-OS // KOREAN AI CORE</title>
+<title>KOREAN</title>
 <style>
-  * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
-  html, body { margin: 0; padding: 0; height: 100dvh; background: #02040a; color: #e2e8f0; display: flex; flex-direction: column; overflow: hidden; }
-  header { padding: 12px 16px; background: linear-gradient(90deg, #060b19, #0f172a); border-bottom: 1px solid #0ea5e9; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; box-shadow: 0 2px 20px rgba(14,165,233,0.25); }
-  .logo { display: flex; align-items: center; gap: 10px; }
-  .logo span { font-size: 18px; font-weight: 900; letter-spacing: 2px; background: linear-gradient(90deg, #38bdf8, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .key-btn { background: rgba(14,165,233,0.15); color: #38bdf8; border: 1px solid #38bdf8; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; }
-  .hud-bar { display: flex; justify-content: space-between; padding: 6px 14px; background: #050914; border-bottom: 1px solid #1e293b; font-size: 10px; color: #38bdf8; letter-spacing: 1px; flex-shrink: 0; }
-  .reactor-box { display: flex; align-items: center; gap: 14px; padding: 10px 16px; background: radial-gradient(circle at left, rgba(14,165,233,0.15), transparent); border-bottom: 1px solid #1e293b; flex-shrink: 0; }
-  .reactor { width: 46px; height: 46px; border-radius: 50%; border: 3px dashed #38bdf8; display: flex; align-items: center; justify-content: center; animation: spin 8s linear infinite; box-shadow: 0 0 18px rgba(56,189,248,0.5); flex-shrink: 0; }
-  .reactor-core { width: 22px; height: 22px; border-radius: 50%; background: radial-gradient(#fff, #0284c7); }
-  .reactor.active { border-color: #f59e0b; animation: spin 1s linear infinite; box-shadow: 0 0 25px #f59e0b; }
-  @keyframes spin { 100% { transform: rotate(360deg); } }
-  .hud-info { flex: 1; }
-  #sysState { font-size: 13px; font-weight: 800; color: #f8fafc; letter-spacing: 0.5px; }
-  #sysSub { font-size: 11px; color: #94a3b8; margin-top: 2px; }
-  .deck { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; padding: 8px 12px; background: #040711; border-bottom: 1px solid #1e293b; flex-shrink: 0; }
-  .deck-btn { background: #0f172a; border: 1px solid #1e293b; color: #94a3b8; padding: 8px 4px; border-radius: 8px; font-size: 11px; font-weight: 700; text-align: center; }
-  .deck-btn.active { background: rgba(14,165,233,0.2); border-color: #38bdf8; color: #fff; box-shadow: inset 0 0 10px rgba(56,189,248,0.3); }
-  #stream { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
-  .msg { max-width: 90%; padding: 12px 15px; border-radius: 12px; font-size: 15px; line-height: 1.5; white-space: pre-wrap; }
-  .user { background: linear-gradient(135deg, #1d4ed8, #0284c7); color: #fff; align-self: flex-end; border: 1px solid #38bdf8; }
-  .ai { background: #0b1120; color: #e2e8f0; align-self: flex-start; border: 1px solid #1e293b; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
-  .launch-btn { margin-top: 10px; background: linear-gradient(90deg, #f59e0b, #ea580c); color: #000; border: none; padding: 10px 16px; border-radius: 8px; font-weight: 900; font-size: 14px; width: 100%; cursor: pointer; }
-  footer { padding: 10px; background: #060b19; border-top: 1px solid #0ea5e9; display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
-  input { flex: 1; background: #0f172a; border: 1px solid #334155; color: #fff; padding: 12px 14px; border-radius: 10px; font-size: 15px; outline: none; }
-  .act-btn { width: 46px; height: 46px; border-radius: 10px; border: 1px solid #38bdf8; background: #0f172a; color: #38bdf8; font-size: 19px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .fire-btn { background: #38bdf8; color: #02040a; font-weight: 900; }
+  * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+  html, body { margin: 0; padding: 0; height: 100dvh; background: #030712; color: #f8fafc; display: flex; flex-direction: column; overflow: hidden; }
+  header { padding: 13px 16px; background: #0b1120; border-bottom: 1px solid #38bdf8; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand h1 { margin: 0; font-size: 20px; font-weight: 900; color: #38bdf8; letter-spacing: 1.5px; }
+  .key-btn { background: #1e293b; color: #38bdf8; border: 1px solid #38bdf8; padding: 7px 13px; border-radius: 20px; font-size: 12px; font-weight: 800; }
+  #warnBox { display: none; background: #dc2626; color: #fff; padding: 10px 14px; font-size: 13px; font-weight: 800; text-align: center; flex-shrink: 0; }
+  .modes { display: flex; gap: 8px; padding: 10px 12px; overflow-x: auto; background: #070c18; border-bottom: 1px solid #1e293b; flex-shrink: 0; }
+  .mode-btn { background: #111827; color: #94a3b8; border: 1px solid #334155; padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; white-space: nowrap; }
+  .mode-btn.active { background: #0284c7; color: #fff; border-color: #38bdf8; }
+  #chat { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+  .msg { max-width: 88%; padding: 14px 16px; border-radius: 16px; font-size: 15px; line-height: 1.5; white-space: pre-wrap; }
+  .user { background: #2563eb; color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+  .ai { background: #111827; color: #f1f5f9; align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid #1e293b; }
+  .status { font-size: 13px; color: #38bdf8; font-weight: 700; }
+  .run-btn { margin-top: 10px; width: 100%; background: #f59e0b; color: #000; border: none; padding: 11px; border-radius: 10px; font-weight: 900; font-size: 14px; }
+  footer { padding: 10px 12px; background: #0b1120; border-top: 1px solid #1e293b; display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+  input { flex: 1; background: #1e293b; border: 1px solid #334155; color: #fff; padding: 13px 15px; border-radius: 24px; font-size: 15px; outline: none; }
+  .rnd { width: 46px; height: 46px; border-radius: 50%; border: none; font-size: 19px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  #micBtn { background: #1e293b; color: #38bdf8; border: 1px solid #38bdf8; }
+  .send { background: #38bdf8; color: #030712; font-weight: 900; }
 </style>
 </head>
 <body>
 <header>
-  <div class="logo">
+  <div class="brand">
     <svg width="30" height="30" viewBox="0 0 100 100">
-      <polygon points="50,3 93,26 93,74 50,97 7,74 7,26" fill="#02040a" stroke="#f59e0b" stroke-width="7"/>
+      <polygon points="50,3 93,26 93,74 50,97 7,74 7,26" fill="#0f172a" stroke="#38bdf8" stroke-width="7"/>
       <path d="M35 28 V72 M35 50 L65 28 M46 43 L67 72" stroke="#38bdf8" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
     </svg>
-    <span>KOREAN AI OS</span>
+    <h1 id="titleTxt">KOREAN</h1>
   </div>
-  <button class="key-btn" onclick="setKey()">🔑 KEY</button>
+  <button class="key-btn" onclick="setKey()">🔑 API Key</button>
 </header>
-<div class="hud-bar">
-  <span>⚡ NEURAL CORE v4.0</span>
-  <span>🛡️ GUARD: ACTIVE</span>
-  <span>🧠 3-BRAIN SYNC</span>
+<div id="warnBox"></div>
+<div class="modes">
+  <button class="mode-btn active" onclick="setMode(this, 'MASTER')">⚡ मास्टर कोर</button>
+  <button class="mode-btn" id="appModeBtn" onclick="setMode(this, 'APP')">🚀 ऐप बिल्डर</button>
+  <button class="mode-btn" onclick="setMode(this, 'DEAL')">💰 मोल-भाव गुरु</button>
+  <button class="mode-btn" onclick="setMode(this, 'LEGAL')">⚖️ कानूनी सलाह</button>
 </div>
-<div class="reactor-box">
-  <div class="reactor" id="reactor"><div class="reactor-core"></div></div>
-  <div class="hud-info">
-    <div id="sysState">COMMAND CENTER READY</div>
-    <div id="sysSub">1-सेकंड ऐप जनरेटर • लाइव वॉइस • सुरक्षा गार्ड</div>
-  </div>
-</div>
-<div class="deck">
-  <div class="deck-btn active" onclick="setMode(this, 'MASTER')">⚡ मास्टर</div>
-  <div class="deck-btn" onclick="setMode(this, 'APP')">🚀 ऐप बनाओ</div>
-  <div class="deck-btn" onclick="setMode(this, 'GUARD')">🛡️ गार्ड</div>
-  <div class="deck-btn" onclick="setMode(this, 'DEAL')">💰 बिज़नेस</div>
-</div>
-<div id="stream">
-  <div class="msg ai">बॉस, आपका असली Sci-Fi कमांड सेंटर लाइव है। ऊपर '🚀 ऐप बनाओ' दबाकर कोई भी ऐप बोलें—यह तुरंत बनाकर यहीं चला देगा!</div>
+<div id="chat">
+  <div class="msg ai">बॉस, KOREAN सिस्टम तैयार है! आपकी रिमोट सेटिंग्स (config.json) और 3-दिमाग इंजन (brain.js) आपस में जुड़ चुके हैं।</div>
 </div>
 <footer>
-  <button class="act-btn" onclick="startVoice()">🎙️</button>
-  <input id="prompt" type="text" placeholder="कमांड दें (जैसे: कैलकुलेटर ऐप बनाओ)..." />
-  <button class="act-btn fire-btn" onclick="executeOS()">➤</button>
+  <button class="rnd" id="micBtn" onclick="startVoice()">🎙️</button>
+  <input id="prompt" type="text" placeholder="बोलें या अपना हुक्म लिखें..." />
+  <button class="rnd send" onclick="sendCmd()">➤</button>
 </footer>
+<script src="brain.js"></script>
 <script>
   let apiKey = localStorage.getItem('gemini_key') || '';
   let mode = 'MASTER';
-  function setMode(el, m) {
-    document.querySelectorAll('.deck-btn').forEach(b => b.classList.remove('active'));
-    el.classList.add('active'); mode = m;
-    document.getElementById('sysState').textContent = 'MODE: ' + m + ' ENGAGED';
+  async function loadRemoteConfig() {
+    try {
+      const res = await fetch('config.json?t=' + Date.now());
+      const cfg = await res.json();
+      if (cfg.system_name) { document.getElementById('titleTxt').textContent = cfg.system_name; document.title = cfg.system_name; }
+      if (cfg.guard_warning) { const w = document.getElementById('warnBox'); w.style.display = 'block'; w.textContent = '🚨 ' + cfg.guard_warning; }
+      if (cfg.voice_feature === false) document.getElementById('micBtn').style.display = 'none';
+      if (cfg.app_builder_feature === false) document.getElementById('appModeBtn').style.display = 'none';
+      if (cfg.status === 'MAINTENANCE') addMsg('🟡 सिस्टम अभी बॉस द्वारा अपडेट (Maintenance) मोड में रखा गया है।', 'ai');
+    } catch (e) {}
   }
-  function setKey() {
-    let k = prompt('Google AI Studio API Key पेस्ट करें:', apiKey);
-    if (k) { apiKey = k.trim(); localStorage.setItem('gemini_key', apiKey); alert('चाबी लॉक हो गई!'); }
-  }
+  loadRemoteConfig();
+  function setMode(b, m) { document.querySelectorAll('.mode-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); mode = m; }
+  function setKey() { let k = prompt('Google AI Studio API Key पेस्ट करें:', apiKey); if (k) { apiKey = k.trim(); localStorage.setItem('gemini_key', apiKey); alert('चाबी सुरक्षित सेव हो गई!'); } }
   function startVoice() {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SR) { alert('कृपया नीचे टाइप करें।'); return; }
     const r = new SR(); r.lang = 'hi-IN';
-    document.getElementById('sysState').textContent = '🎙️ LISTENING VOICE...';
-    r.onresult = (e) => { document.getElementById('prompt').value = e.results[0][0].transcript; executeOS(); };
-    r.onerror = () => { document.getElementById('sysState').textContent = 'COMMAND CENTER READY'; };
-    r.start();
+    let st = addMsg('🎙️ सुन रहा हूँ, बोलिए...', 'ai status');
+    r.onresult = (e) => { st.remove(); document.getElementById('prompt').value = e.results.at(0).at(0).transcript; sendCmd(); };
+    r.onerror = () => st.remove(); r.start();
   }
-  function addCard(text, cls, htmlCode) {
-    let d = document.createElement('div'); d.className = 'msg ' + cls; d.textContent = text;
-    if (htmlCode) {
-      let b = document.createElement('button'); b.className = 'launch-btn'; b.textContent = '▶️ नया ऐप अभी चलाएं (LAUNCH APP)';
-      b.onclick = () => { let w = window.open('', '_blank'); w.document.write(htmlCode); w.document.close(); };
-      d.appendChild(b);
+  function addMsg(txt, cls, appHtml) {
+    let d = document.createElement('div'); d.className = 'msg ' + cls; d.textContent = txt;
+    if (appHtml) {
+      let btn = document.createElement('button'); btn.className = 'run-btn'; btn.textContent = '▶️ नया ऐप अभी चलाएं';
+      btn.onclick = () => { let w = window.open('', '_blank'); w.document.write(appHtml); w.document.close(); };
+      d.appendChild(btn);
     }
-    let s = document.getElementById('stream'); s.appendChild(d); s.scrollTop = s.scrollHeight;
+    let c = document.getElementById('chat'); c.appendChild(d); c.scrollTop = c.scrollHeight; return d;
   }
-  async function askCore(sys, msg) {
-    let u = 'https://' + '://googleapis.com' + apiKey;
-    let res = await fetch(u, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ systemInstruction: {parts:[{text:sys}]}, contents: [{parts:[{text:msg}]}] }) });
-    let data = await res.json();
-    if (data.error) throw new Error(data.error.message);
-    return data.candidates[0].content.parts[0].text;
-  }
-  async function executeOS() {
+  async function sendCmd() {
     let inp = document.getElementById('prompt'); let q = inp.value.trim();
     if (!q) return;
-    if (!apiKey) { alert('पहले ऊपर 🔑 KEY दबाकर चाबी डालें!'); return; }
-    addCard(q, 'user'); inp.value = '';
-    let rc = document.getElementById('reactor'); let st = document.getElementById('sysState');
-    rc.classList.add('active');
+    if (!apiKey) { alert('पहले ऊपर 🔑 API Key दबाकर चाबी डालें!'); return; }
+    addMsg(q, 'user'); inp.value = '';
+    let st = addMsg('⚡ इंजन सक्रिय हो रहा है...', 'ai status');
     try {
-      if (mode === 'APP') {
-        st.textContent = '⚡ BUILDING LIVE APP CODE...';
-        let code = await askCore('You are an elite Instant App Generator. Return ONLY complete, single-file working HTML/CSS/JS code starting with <!DOCTYPE html> and nothing else. No markdown.', q);
-        code = code.replace(/```html|```/g, '').trim();
-        addCard('बॉस, आपका नया ऐप तैयार है! नीचे बटन दबाकर इसे अभी चलाएं:', 'ai', code);
-      } else {
-        st.textContent = '🧠 BRAIN 1: DEEP STRATEGY...';
-        let p = await askCore(`Mode: ${mode}. You are Master Strategist. Give sharp, powerful analysis.`, q);
-        st.textContent = '🛡️ BRAIN 2: SECURITY & FINALIZING...';
-        let ans = await askCore(`Mode: ${mode}. You are Supreme Advisor & Security Guard. Refine the draft, issue warnings if anything is risky/unauthorized, and reply sharply in Hindi/Hinglish.`, `Query: ${q}\nDraft: ${p}`);
-        addCard(ans, 'ai');
-        if ('speechSynthesis' in window) { let u = new SpeechSynthesisUtterance(ans.slice(0, 200)); u.lang = 'hi-IN'; window.speechSynthesis.speak(u); }
+      const out = await runKoreanBrain(apiKey, mode, q, (s) => { st.textContent = s; });
+      st.remove();
+      if (out.type === 'app') addMsg('बॉस, आपका नया ऐप तैयार है:', 'ai', out.code);
+      else {
+        addMsg(out.text, 'ai');
+        if ('speechSynthesis' in window) { let u = new SpeechSynthesisUtterance(out.text.slice(0, 200)); u.lang = 'hi-IN'; window.speechSynthesis.speak(u); }
       }
-    } catch (e) { addCard('❌ SYSTEM ALERT: ' + e.message, 'ai'); }
-    rc.classList.remove('active'); st.textContent = 'COMMAND CENTER READY';
+    } catch (e) { st.textContent = '❌ त्रुटि: ' + e.message; }
   }
 </script>
 </body>
